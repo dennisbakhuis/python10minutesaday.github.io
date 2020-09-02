@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Python 10 minutes a day - Progress</title>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Short but concise Python programming course to get you up and running fast. Here are all lecture presented as a progress tracker.">
+
+	<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='flatly.min.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+
+  <body>
+
+    <div class="container-fluid" id="wrapper">
+	  <div class="row">
+		<div class="col-lg-5 col-centered" id="content">
+          <img src="{{ url_for('static', filename='header_10minpython.png') }}" class="headerimage" >
+		  <h1>Python 10 minutes a day</h1>
+          <div id="inner-works">
+            <h2>Progress tracker</h2>
+		    <p>Track your progress during the series (uses cookies to store locally). Links are provided to the Medium post and
+            the Jupyter Notebook on Github. I highly advice the Medium posts as their formatting is better. Feel free to contact
+            me on <a href="https://www.linkedin.com/in/dennisbakhuis/">LinkedIn</a> if you have any questions!</p>
+		    <ul id="list-group">
+              {% for article in articles %}
+                <li id="list-group-item">
+                  <div>
+                    <input type="checkbox" id="option{{ article[0] }}">
+                    <label for="option{{ article[0] }}" class="label-style" id="checkboxlabel{{ article[0] }}">
+                      {{ article[0] }}. {{ article[1] }}
+                    </label>
+                  </div>
+                  <div>
+                    <a href="{{ article[3] }}">
+                      <img src="{{ url_for('static', filename='medium_logo.png') }}" id="link-item">
+                    </a>
+                    <a href="{{ article[2] }}">
+                      <img src="{{ url_for('static', filename='github_logo.png') }}" id="link-item">
+                    </a>
+                  </div>
+                </li>
+              {% endfor %}
+		    </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+	<footer>
+	  <div class="row pad">
+	  	<div class="col-lg-12 text-center">
+	  		Copyright &copy; 2020 <strong>Python 10 minutes a day</strong>
+	  	</div>
+	  </div>
+	</footer>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="http://cdn.jsdelivr.net/jquery.cookie/1.4.0/jquery.cookie.min.js"></script>
+    <script>
+
+      function updateButtonStatus(){
+        var allChecked = $(":checkbox").length === $(":checkbox:checked").length;
+        $("button").text(allChecked? "Uncheck all" : "Check all");
+      }
+
+      function updateCookie(){
+        var elementValues = {};
+        $(":checkbox").each(function(){
+          elementValues[this.id] = this.checked;
+        });
+
+        elementValues["buttonText"] = $("button").text();
+        $.cookie('elementValues', elementValues, { expires: 5 * 365, path: '/' })
+      }
+
+      function repopulateFormELements(){
+        var elementValues = $.cookie('elementValues');
+        if(elementValues){
+          Object.keys(elementValues).forEach(function(element) {
+            var checked = elementValues[element];
+            $("#" + element).prop('checked', checked);
+          });
+
+          $("button").text(elementValues["buttonText"])
+        }
+      }
+
+      $(":checkbox").on("change", function(){
+        updateButtonStatus();
+        updateCookie();
+      });
+
+      $.cookie.json = true;
+      repopulateFormELements();
+    </script>
+  </body>
+</html>
