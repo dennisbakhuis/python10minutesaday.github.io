@@ -12,7 +12,7 @@ that you keep the cookie, i.e. by turning off the cookie-auto-delete plugin in
 your browser for that website. While it is mostly a static website, I still
 have used Python to create it (for fun).
 
-A live version is server at: [python-10-minutes-a-day.rocks](python-10-minutes-a-day.rocks)
+A live version is server at: [https://python-10-minutes-a-day.rocks](https://python-10-minutes-a-day.rocks)
 
 ![How it looks](/assets/tracker.png)
 
